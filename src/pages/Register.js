@@ -47,70 +47,99 @@ function Register() {
     };
 
     return (
-        <div className="container" style={{ marginTop: "120px" }}>
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card border-0 rounded shadow-sm" style={{ backgroundColor: "#000", color: "#fff" }}>
-                        <div className="card-body">
-                            <h4 className="fw-bold text-white">REGISTER</h4>
-                            <hr />
-                            <form onSubmit={registerHandler}>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="mb-3">
-                                            <label className="form-label text-white">NAMA LENGKAP</label>
-                                            <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} placeholder="Masukkan Nama Lengkap" />
+        <div
+            style={{
+                backgroundImage: 'url("https://i.pinimg.com/564x/1c/35/5a/1c355a72ace613f0134ac9d551397272.jpg")',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                minHeight: "100vh",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                padding: "20px",
+            }}
+        >
+            <div className="container" style={{ maxWidth: "600px" }}>
+                <div className="card border-0 rounded shadow-lg" style={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}>
+                    <div className="card-body">
+                        <h4 className="fw-bold text-center text-white">Register</h4>
+                        <hr />
+                        <form onSubmit={registerHandler}>
+                            <div className="row">
+                                <div className="col-md-12 mb-3">
+                                    <label className="form-label text-white">Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="Enter Your Name"
+                                    />
+                                    {validation.name && (
+                                        <div className="alert alert-danger mt-2">
+                                            {validation.name[0]}
                                         </div>
-                                        {
-                                            validation.name && (
-                                                <div className="alert alert-danger">
-                                                    {validation.name[0]}
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="mb-3">
-                                            <label className="form-label text-white">ALAMAT EMAIL</label>
-                                            <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Masukkan Alamat Email" />
-                                        </div>
-                                        {
-                                            validation.email && (
-                                                <div className="alert alert-danger">
-                                                    {validation.email[0]}
-                                                </div>
-                                            )
-                                        }
-                                    </div>
+                                    )}
                                 </div>
-                                <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="mb-3">
-                                            <label className="form-label text-white">PASSWORD</label>
-                                            <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan Password" />
+
+                                <div className="col-md-12 mb-3">
+                                    <label className="form-label text-white">Email</label>
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Make Your Email"
+                                    />
+                                    {validation.email && (
+                                        <div className="alert alert-danger mt-2">
+                                            {validation.email[0]}
                                         </div>
-                                        {
-                                            validation.password && (
-                                                <div className="alert alert-danger">
-                                                    {validation.password[0]}
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="mb-3">
-                                            <label className="form-label text-white">KONFIRMASI PASSWORD</label>
-                                            <input type="password" className="form-control" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} placeholder="Masukkan Konfirmasi Password" />
+                                    )}
+                                </div>
+
+                                <div className="col-md-12 mb-3">
+                                    <label className="form-label text-white">Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Make Your Password"
+                                    />
+                                    {validation.password && (
+                                        <div className="alert alert-danger mt-2">
+                                            {validation.password[0]}
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
-                                <div className="d-grid gap-2">
-                                    <button type="submit" className="btn" style={{ backgroundColor: "#007bff", borderColor: "#007bff" }}>
-                                        REGISTER
-                                    </button>
+
+                                <div className="col-md-12 mb-3">
+                                    <label className="form-label text-white">Password Confirmation</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        value={passwordConfirmation}
+                                        onChange={(e) => setPasswordConfirmation(e.target.value)}
+                                        placeholder="Password Confrimation"
+                                    />
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div className="d-grid gap-2">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    style={{
+                                        backgroundColor: "#007bff",
+                                        borderColor: "#007bff",
+                                        fontWeight: "bold",
+                                    }}
+                                >
+                                    Register Now
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

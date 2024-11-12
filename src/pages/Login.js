@@ -1,112 +1,130 @@
-// import hook react
 import React, { useState, useEffect } from 'react';
-
-// import hook useNavigate from react router dom
 import { useNavigate, Link } from 'react-router-dom';
-
-// import axios
 import axios from 'axios';
 
 function Login() {
+  // define state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [validation, setValidation] = useState([]);
+  const navigate = useNavigate();
 
-    // define state
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  // check if token exists and redirect if logged in
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
-    // define state validation
-    const [validation, setValidation] = useState([]);
+  // login handler
+  const loginHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
 
-    // define navigate
-    const navigate = useNavigate();
+    await axios.post('http://localhost:8000/api/login', formData)
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        navigate('/dashboard');
+      })
+      .catch((error) => {
+        setValidation(error.response.data);
+      });
+  };
 
-    // hook useEffect
-    useEffect(() => {
-        // check token
-        if (localStorage.getItem('token')) {
-            // redirect page dashboard
-            navigate('/dashboard');
-        }
-    }, [navigate]);
-
-    // function "loginHandler"
-    const loginHandler = async (e) => {
-        e.preventDefault();
-        
-        // initialize formData
-        const formData = new FormData();
-
-        // append data to formData
-        formData.append('email', email);
-        formData.append('password', password);
-
-        // send data to server
-        await axios.post('http://localhost:8000/api/login', formData)
-        .then((response) => {
-            // set token on localStorage
-            localStorage.setItem('token', response.data.token);
-
-            // redirect to dashboard
-            navigate('/dashboard');
-        })
-        .catch((error) => {
-            // assign error to state "validation"
-            setValidation(error.response.data);
-        });
-    };
-
-    return (
-        <div className="container" style={{ marginTop: "120px" }}>
-            <div className="row justify-content-center">
-                <div className="col-md-4">
-                    <div className="card border-0 rounded shadow-sm" style={{ backgroundColor: "#000", color: "#fff" }}>
-                        <div className="card-body">
-                            <h4 className="fw-bold text-white">LOGIN</h4>
-                            <hr />
-                            {
-                                validation.message && (
-                                    <div className="alert alert-danger">
-                                        {validation.message}
-                                    </div>
-                                )
-                            }
-                            <form onSubmit={loginHandler}>
-                                <div className="mb-3">
-                                    <label className="form-label text-white">ALAMAT EMAIL</label>
-                                    <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Masukkan Alamat Email" />
-                                </div>
-                                {
-                                    validation.email && (
-                                        <div className="alert alert-danger">
-                                            {validation.email[0]}
-                                        </div>
-                                    )
-                                }
-                                <div className="mb-3">
-                                    <label className="form-label text-white">PASSWORD</label>
-                                    <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan Password" />
-                                </div>
-                                {
-                                    validation.password && (
-                                        <div className="alert alert-danger">
-                                            {validation.password[0]}
-                                        </div>
-                                    )
-                                }
-                                <div className="d-grid gap-2">
-                                    <button type="submit" className="btn btn-primary" style={{ backgroundColor: "#007bff", borderColor: "#007bff" }}>LOGIN</button>
-                                </div>
-                            </form>
-                            <hr />
-                            <div className="text-center">
-                                <span className="text-white">Belum punya akun? </span>
-                                <Link to="/register" className="btn btn-link p-0 text-white">Daftar Sekarang</Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div
+      style={{
+        backgroundImage:
+          'url("https://i.pinimg.com/564x/1c/35/5a/1c355a72ace613f0134ac9d551397272.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          maxWidth: "400px",
+          backgroundColor: "rgba(0, 0, 0, 0.75)",
+          color: "#fff",
+          padding: "30px",
+          borderRadius: "10px",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.5)"
+        }}
+      >
+        <h4 className="fw-bold text-center">LOGIN</h4>
+        <hr />
+        {validation.message && (
+          <div className="alert alert-danger text-center">
+            {validation.message}
+          </div>
+        )}
+        <form onSubmit={loginHandler}>
+          <div className="mb-3">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Your Email...."
+              required
+            />
+          </div>
+          {validation.email && (
+            <div className="alert alert-danger">
+              {validation.email[0]}
             </div>
+          )}
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Your Password...."
+              required
+            />
+          </div>
+          {validation.password && (
+            <div className="alert alert-danger">
+              {validation.password[0]}
+            </div>
+          )}
+                   <div className="d-grid gap-2">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{
+                backgroundColor: "#007bff",
+                borderColor: "#007bff",
+                color: "#fff",
+                padding: "10px",
+                fontSize: "16px",
+                fontWeight: "bold"
+              }}
+            >
+              LOGIN
+            </button>
+          </div>
+        </form>
+        <hr />
+        <div className="text-center">
+          <span>Belum punya akun? </span>
+          <Link to="/register" className="btn btn-link text-white p-0" style={{ fontWeight: "bold" }}>
+            Daftar Disini!
+          </Link>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Login;
+
